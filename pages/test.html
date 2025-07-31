@@ -34,13 +34,18 @@
     <h1>Website Test Page</h1>
     
     <div class="test-section">
-        <h2>File Loading Test</h2>
-        <div id="fileTest"></div>
+        <h2>Navigation Test</h2>
+        <div id="navTest">
+            <a href="../home.html">← Back to Home</a><br>
+            <a href="section.html?categoryId=test">Test Section Page</a><br>
+            <a href="article.html?id=test">Test Article Page</a><br>
+            <a href="contact.html">Contact Page</a>
+        </div>
     </div>
     
     <div class="test-section">
-        <h2>Data Test</h2>
-        <div id="dataTest"></div>
+        <h2>Sanity Connection Test</h2>
+        <div id="sanityTest">Testing Sanity connection...</div>
     </div>
     
     <div class="test-section">
@@ -48,32 +53,33 @@
         <div id="jsTest"></div>
     </div>
 
-    <script>
-        // Test file loading
-        const fileTest = document.getElementById('fileTest');
+    <script type="module">
+        import { createClient } from 'https://cdn.skypack.dev/@sanity/client';
         
-        // Test if data.js loads
+        // Test Sanity connection
+        const sanityTest = document.getElementById('sanityTest');
         try {
-            // This will be set by data.js
-            if (typeof islamicData !== 'undefined') {
-                fileTest.innerHTML = '<div class="success">✅ data.js loaded successfully</div>';
-            } else {
-                fileTest.innerHTML = '<div class="error">❌ data.js not loaded</div>';
-            }
+            const client = createClient({
+                projectId: '00ycpx1i',
+                dataset: 'production',
+                apiVersion: '2023-01-01',
+                useCdn: true,
+            });
+            
+            // Test basic query
+            client.fetch('*[_type == "category"][0..2]{_id, title}')
+                .then(categories => {
+                    if (categories && categories.length > 0) {
+                        sanityTest.innerHTML = `<div class="success">✅ Sanity connection successful. Found ${categories.length} categories</div>`;
+                    } else {
+                        sanityTest.innerHTML = '<div class="error">❌ No categories found in Sanity</div>';
+                    }
+                })
+                .catch(error => {
+                    sanityTest.innerHTML = `<div class="error">❌ Sanity connection failed: ${error.message}</div>`;
+                });
         } catch (e) {
-            fileTest.innerHTML = '<div class="error">❌ Error loading data.js: ' + e.message + '</div>';
-        }
-        
-        // Test data structure
-        const dataTest = document.getElementById('dataTest');
-        try {
-            if (typeof islamicData !== 'undefined' && islamicData.sections) {
-                dataTest.innerHTML = '<div class="success">✅ Data structure is valid. Found ' + islamicData.sections.length + ' sections</div>';
-            } else {
-                dataTest.innerHTML = '<div class="error">❌ Data structure is invalid</div>';
-            }
-        } catch (e) {
-            dataTest.innerHTML = '<div class="error">❌ Error testing data: ' + e.message + '</div>';
+            sanityTest.innerHTML = `<div class="error">❌ Error setting up Sanity client: ${e.message}</div>`;
         }
         
         // Test JavaScript functionality
@@ -87,7 +93,5 @@
             jsTest.innerHTML = '<div class="error">❌ JavaScript error: ' + e.message + '</div>';
         }
     </script>
-    
-    <script src="data.js"></script>
 </body>
 </html> 
