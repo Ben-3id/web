@@ -63,7 +63,7 @@ class TopicPage {
         
         // Update breadcrumb
         document.getElementById('sectionLink').textContent = this.currentSection.title;
-        document.getElementById('sectionLink').href = `section.html?sectionId=${this.currentSection.id}`;
+        document.getElementById('sectionLink').href = `section.html?categoryId=${this.currentSection.id}`;
         document.getElementById('topicTitle').textContent = this.currentTopic.title;
         
         // Update topic header
