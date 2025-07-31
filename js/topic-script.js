@@ -1,4 +1,12 @@
 // Topic Page JavaScript Functionality
+import { createClient } from 'https://cdn.skypack.dev/@sanity/client';
+
+const client = createClient({
+  projectId: '00ycpx1i',
+  dataset: 'production',
+  apiVersion: '2023-01-01',
+  useCdn: false,
+});
 
 class TopicPage {
     constructor() {
@@ -18,7 +26,7 @@ class TopicPage {
         this.setupPdfViewer();
     }
 
-    loadTopicData() {
+    async loadTopicData() {
         try {
             // Get URL parameters
             const urlParams = new URLSearchParams(window.location.search);
@@ -30,26 +38,28 @@ class TopicPage {
                 return;
             }
 
-            // Find section and topic
-            const section = islamicData.sections.find(s => s.id === sectionId);
-            if (!section) {
-                this.showError('القسم غير موجود');
-                return;
-            }
+            // For now, show a message that this feature is under development
+            // since the current Sanity schema doesn't include sections/topics structure
+            this.showError('هذه الميزة قيد التطوير. يرجى استخدام صفحات الأقسام والمقالات بدلاً من ذلك.');
+            return;
 
-            const topic = section.topics.find(t => t.id === topicId);
-            if (!topic) {
-                this.showError('الموضوع غير موجود');
-                return;
-            }
-
-            this.currentSection = section;
-            this.currentTopic = topic;
-
-            this.renderTopicPage();
-            this.loadBlogPosts();
-            this.loadPdfDocuments();
-            this.loadChapters();
+            // TODO: Implement proper Sanity queries when the schema is updated
+            // const query = `*[_type == "section" && _id == $sectionId][0]{
+            //     _id,
+            //     title,
+            //     description,
+            //     "topics": *[_type == "topic" && references(^._id) && _id == $topicId][0]{
+            //         _id,
+            //         title,
+            //         description,
+            //         content,
+            //         blogs,
+            //         pdfs,
+            //         chapters
+            //     }
+            // }`;
+            // 
+            // const section = await client.fetch(query, { sectionId, topicId });
 
         } catch (error) {
             console.error('Error loading topic data:', error);

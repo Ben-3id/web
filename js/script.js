@@ -10,17 +10,23 @@ const client = createClient({
 class IslamicWebsite {
   constructor() {
     this.sectionsGrid = document.getElementById('sectionsGrid');
-    this.categoriesGrid = document.getElementById('categoriesGrid');
-    this.data = { sections: [], categories: [] };
+    this.data = { sections: [] };
     this.init();
   }
 
   init() {
-    this.loadSections();
-    this.loadCategories();
+    // Only load sections if sectionsGrid exists (for other pages that might use this)
+    if (this.sectionsGrid) {
+      this.loadSections();
+    }
   }
 
   async loadSections() {
+    if (!this.sectionsGrid) {
+      console.warn('sectionsGrid element not found');
+      return;
+    }
+
     this.sectionsGrid.innerHTML = '<div class="loading">جاري تحميل الأقسام...</div>';
     const query = '*[_type == "section"]';
     try {
@@ -37,38 +43,14 @@ class IslamicWebsite {
     }
   }
 
-  async loadCategories() {
-    this.categoriesGrid.innerHTML = '<div class="loading">جاري تحميل التصنيفات...</div>';
-    const query = '*[_type == "category"]{_id, title, description}';
-    try {
-      const categories = await client.fetch(query);
-      if (categories.length > 0) {
-        this.data.categories = categories;
-        this.renderCategories();
-      } else {
-        this.categoriesGrid.innerHTML = '<p>لا توجد تصنيفات.</p>';
-      }
-    } catch (err) {
-      console.error('خطأ في تحميل التصنيفات:', err.message);
-      this.categoriesGrid.innerHTML = '<p>فشل في جلب التصنيفات.</p>';
-    }
-  }
-
   renderSections() {
+    if (!this.sectionsGrid) return;
+    
     this.sectionsGrid.innerHTML = this.data.sections.map(section => `
       <div class="section-card">
         <h3>${section.icon || '📖'} ${section.title}</h3>
         <p>${section.description || 'بدون وصف'}</p>
         <p><strong>${(section.topics || []).length}</strong> موضوع</p>
-      </div>
-    `).join('');
-  }
-
-  renderCategories() {
-    this.categoriesGrid.innerHTML = this.data.categories.map(cat => `
-      <div class="category-card">
-        <h3>${cat.title}</h3>
-        <p>${cat.description || ''}</p>
       </div>
     `).join('');
   }
