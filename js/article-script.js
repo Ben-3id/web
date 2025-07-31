@@ -16,37 +16,60 @@ class ArticlePage {
     async init() {
         const urlParams = new URLSearchParams(window.location.search);
         const articleId = urlParams.get('id');
+        const slug = urlParams.get('slug');
 
-        if (!articleId) {
-            this.showError('معرف المقال مطلوب');
+        if (!articleId && !slug) {
+            this.showError('معرف المقال أو الرابط مطلوب');
             return;
         }
 
-        await this.loadArticle(articleId);
+        // Use slug if available, otherwise use id
+        const identifier = slug || articleId;
+        const isSlug = !!slug;
+        
+        await this.loadArticle(identifier, isSlug);
     }
 
-    async loadArticle(articleId) {
+    async loadArticle(identifier, isSlug = false) {
         try {
-            const query = `*[_type == "article" && _id == $articleId][0]{
-                title,
-                introduction,
-                content,
-                mainImage{
-                    asset->{
-                        url
-                    }
-                },
-                publishedAt,
-                keyFeatures,
-                references,
-                tags,
-                "category": category->{
+            // Update query to use 'post' type and handle both slug and id
+            const query = isSlug 
+                ? `*[_type == "post" && slug.current == $identifier][0]{
+                    _id,
                     title,
-                    _id
-                }
-            }`;
+                    description,
+                    content,
+                    mainImage{
+                        asset->{
+                            url
+                        }
+                    },
+                    publishedAt,
+                    "author": author->name,
+                    "category": category->{
+                        title,
+                        _id
+                    }
+                }`
+                : `*[_type == "post" && _id == $identifier][0]{
+                    _id,
+                    title,
+                    description,
+                    content,
+                    mainImage{
+                        asset->{
+                            url
+                        }
+                    },
+                    publishedAt,
+                    "author": author->name,
+                    "category": category->{
+                        title,
+                        _id
+                    }
+                }`;
 
-            const article = await client.fetch(query, { articleId });
+            const article = await client.fetch(query, { identifier });
 
             if (!article) {
                 this.showError('المقال غير موجود');
@@ -75,76 +98,56 @@ class ArticlePage {
             </div>
         ` : '';
 
-        const keyFeatures = article.keyFeatures?.length ? `
-            <div class="key-features">
-                <h2>النقاط الرئيسية</h2>
-                <ul>
-                    ${article.keyFeatures.map(feature => `<li>${feature}</li>`).join('')}
-                </ul>
-            </div>
-        ` : '';
-
-        const references = article.references?.length ? `
-            <div class="references">
-                <h2>المراجع</h2>
-                <ul>
-                    ${article.references.map(ref => `
-                        <li>
-                            <strong>${ref.title}</strong>
-                            ${ref.source ? ` - ${ref.source}` : ''}
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-        ` : '';
-
-        const tags = article.tags?.length ? `
-            <div class="article-tags">
-                ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-            </div>
-        ` : '';
+        const publishedDate = article.publishedAt ? 
+            new Date(article.publishedAt).toLocaleDateString('ar-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) : '';
 
         const content = `
             ${breadcrumb}
-            <article class="article">
+            <article class="article-content">
                 <header class="article-header">
                     <h1 class="article-title">${article.title}</h1>
-                    ${article.publishedAt ? 
-                        `<time class="article-date">${new Date(article.publishedAt).toLocaleDateString('ar-SA')}</time>` 
-                        : ''}
+                    <div class="article-meta">
+                        ${article.author ? `<span class="article-author">الكاتب: ${article.author}</span>` : ''}
+                        ${publishedDate ? `<span class="article-date">تاريخ النشر: ${publishedDate}</span>` : ''}
+                    </div>
+                    ${article.description ? `<p class="article-description">${article.description}</p>` : ''}
                 </header>
                 
                 ${mainImage}
                 
-                <div class="article-introduction">
-                    ${article.introduction || ''}
-                </div>
-
-                <div class="article-content">
+                <div class="article-body">
                     ${this.renderContent(article.content)}
                 </div>
-
-                ${keyFeatures}
-                ${references}
-                ${tags}
             </article>
         `;
 
-        if (this.articleContent) {
-            this.articleContent.innerHTML = content;
-            document.title = `${article.title} - موقع إسلامي`;
-        }
+        this.articleContent.innerHTML = content;
+        document.title = `${article.title} - موقع إسلامي`;
     }
 
     renderContent(content) {
-        // This is a simple rendering - you might want to use a more sophisticated
-        // renderer for Portable Text from Sanity
-        return content ? content.map(block => {
-            if (block._type === 'block') {
-                return `<p>${block.children.map(child => child.text).join('')}</p>`;
-            }
-            return '';
-        }).join('') : '';
+        if (!content) return '';
+        
+        // Handle different content types
+        if (typeof content === 'string') {
+            return `<p>${content}</p>`;
+        }
+        
+        // Handle Portable Text content from Sanity
+        if (Array.isArray(content)) {
+            return content.map(block => {
+                if (block._type === 'block') {
+                    return `<p>${block.children?.map(child => child.text).join('') || ''}</p>`;
+                }
+                return '';
+            }).join('');
+        }
+        
+        return '<p>المحتوى غير متاح</p>';
     }
 
     showError(message) {
