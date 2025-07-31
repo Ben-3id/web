@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موضوع إسلامي - موقع إسلامي</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/topic-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <!-- PDF.js library for PDF viewing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>مراقى الوعى</h1>
+                <p>وقف لله</p>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="../home.html">الرئيسية</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div id="topicContent">
+                <!-- Topic content will be loaded dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="pdf-modal">
+        <div class="pdf-modal-content">
+            <div class="pdf-header">
+                <h3 id="pdfTitle">عرض PDF</h3>
+                <button id="closePdf" class="close-btn">×</button>
+            </div>
+            <div class="pdf-controls">
+                <button id="prevPage" class="pdf-btn">السابق</button>
+                <span id="pageInfo">صفحة 1 من 1</span>
+                <button id="nextPage" class="pdf-btn">التالي</button>
+                <button id="zoomIn" class="pdf-btn">تكبير</button>
+                <button id="zoomOut" class="pdf-btn">تصغير</button>
+                <button id="downloadPdf" class="pdf-btn">تحميل</button>
+            </div>
+            <div class="pdf-container">
+                <canvas id="pdfCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 موقع إسلامي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="../data/data.js"></script>
+    <script src="../js/topic-script.js"></script>
+</body>
+</html> 

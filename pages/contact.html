@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اتصل بنا - موقع إسلامي</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/contact-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>مراقى الوعى</h1>
+                <p>وقف لله</p>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="../home.html">الرئيسية</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="contact-page">
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="../home.html">الرئيسية</a> › 
+                    <span>اتصل بنا</span>
+                </div>
+
+                <!-- Contact Header -->
+                <div class="contact-header">
+                    <h1>📞 اتصل بنا</h1>
+                    <p>نحن هنا لمساعدتك. لا تتردد في التواصل معنا</p>
+                </div>
+
+                <div class="contact-grid">
+                    <!-- Contact Information -->
+                    <div class="contact-info">
+                        <h2>معلومات الاتصال</h2>
+                        <div class="info-item">
+                            <div class="info-icon">📧</div>
+                            <div class="info-content">
+                                <h3>البريد الإلكتروني</h3>
+                                <p>info@islamicwebsite.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🕌</div>
+                            <div class="info-content">
+                                <h3>الدعاء</h3>
+                                <p>اللهم صل على محمد وعلى آل محمد</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">⏰</div>
+                            <div class="info-content">
+                                <h3>أوقات الاستجابة</h3>
+                                <p>نستجيب للرسائل خلال 24 ساعة</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="contact-form">
+                        <h2>📝 راسلنا</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">الاسم الكامل *</label>
+                                <input type="text" id="name" name="name" required>
+                                <span class="error-message" id="nameError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">البريد الإلكتروني *</label>
+                                <input type="email" id="email" name="email" required>
+                                <span class="error-message" id="emailError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">الموضوع *</label>
+                                <input type="text" id="subject" name="subject" required>
+                                <span class="error-message" id="subjectError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">الرسالة *</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                                <span class="error-message" id="messageError"></span>
+                            </div>
+                            <button type="submit" class="submit-btn">إرسال الرسالة</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Suggestion Section -->
+                <div class="suggestion-section">
+                    <div class="suggestion-header">
+                        <h2>💡 اقترح تحسينات</h2>
+                        <p>ساعدنا في تحسين الموقع من خلال اقتراحاتك</p>
+                    </div>
+                    <div class="suggestion-grid">
+                        <button class="suggestion-btn" data-type="feature">إضافة ميزة جديدة</button>
+                        <button class="suggestion-btn" data-type="content">إضافة محتوى</button>
+                        <button class="suggestion-btn" data-type="design">تحسين التصميم</button>
+                        <button class="suggestion-btn" data-type="bug">الإبلاغ عن مشكلة</button>
+                        <button class="suggestion-btn" data-type="other">اقتراح آخر</button>
+                    </div>
+                </div>
+
+                <!-- Suggestion Form (Hidden by default) -->
+                <div class="suggestion-form" id="suggestionForm" style="display: none;">
+                    <h3>📝 اقتراح جديد</h3>
+                    <form id="suggestionFormElement">
+                        <div class="form-group">
+                            <label for="suggestionType">نوع الاقتراح *</label>
+                            <select id="suggestionType" name="type" required>
+                                <option value="">اختر نوع الاقتراح</option>
+                                <option value="feature">إضافة ميزة جديدة</option>
+                                <option value="content">إضافة محتوى</option>
+                                <option value="design">تحسين التصميم</option>
+                                <option value="bug">الإبلاغ عن مشكلة</option>
+                                <option value="other">اقتراح آخر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionPriority">الأولوية</label>
+                            <select id="suggestionPriority" name="priority">
+                                <option value="low">منخفضة</option>
+                                <option value="medium" selected>متوسطة</option>
+                                <option value="high">عالية</option>
+                                <option value="critical">حرجة</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionTitle">عنوان الاقتراح *</label>
+                            <input type="text" id="suggestionTitle" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionDescription">وصف الاقتراح *</label>
+                            <textarea id="suggestionDescription" name="description" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionBenefits">الفوائد المتوقعة</label>
+                            <textarea id="suggestionBenefits" name="benefits" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionName">اسمك (اختياري)</label>
+                            <input type="text" id="suggestionName" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestionEmail">بريدك الإلكتروني (اختياري)</label>
+                            <input type="email" id="suggestionEmail" name="email">
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="submit-btn">إرسال الاقتراح</button>
+                            <button type="button" class="cancel-btn" onclick="hideSuggestionForm()">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 موقع إسلامي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="../js/contact-script.js"></script>
+</body>
+</html> 
