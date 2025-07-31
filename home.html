@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="data/data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@sanity/client@5.3.3/dist/sanityClient.browser.js"></script>
+    <title>موقع إسلامي - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/category-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>مراقى الوعى</h1>
+                <p>وقف لله</p>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="home.html">الرئيسية</a></li>
+                    <li><a href="#about">من نحن</a></li>
+                    <li><a href="pages/contact.html">اتصل بنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>مرحباً بكم في موقعنا الإسلامي</h2>
+                    <p>اكتشفوا العلوم الإسلامية من خلال أقسامنا المختلفة</p>
+                </div>
+            </section>
+
+            <!-- مدونة المقالات من Sanity -->
+            <section class="sections-container">
+                <h2 class="sections-title">الأقسام الرئيسية</h2>
+                <div class="sections-grid" id="sectionsGrid">
+                    <!-- Sections will be loaded dynamically from JSON -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 موقع إسلامي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
