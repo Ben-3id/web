@@ -1,3 +1,12 @@
+import { createClient } from 'https://cdn.skypack.dev/@sanity/client';
+
+const client = createClient({
+  projectId: '00ycpx1i',
+  dataset: 'production',
+  apiVersion: '2023-01-01',
+  useCdn: false, // الأفضل تخليه false أثناء التطوير لتفادي الكاش
+});
+
 // Section Page JavaScript Functionality
 class SectionPage {
     constructor() {
