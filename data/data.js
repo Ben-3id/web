@@ -4,7 +4,7 @@ const client = createClient({
   projectId: '00ycpx1i', // غيّره حسب مشروعك
   dataset: 'production',
   apiVersion: '2023-01-01',
-  useCdn: true,
+  useCdn: false,
 });
 
 // الاستعلام لجلب التصنيفات مع البوستات المرتبطة بكل تصنيف
@@ -50,3 +50,4 @@ client.fetch(query)
   .catch(err => {
     console.error("خطأ في جلب التصنيفات:", err.message);
   });
+
